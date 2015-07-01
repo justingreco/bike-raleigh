@@ -1,0 +1,25 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "label": "Flythe Cyclery" }, "geometry": { "type": "Point", "coordinates": [ -78.644938774736858, 35.788938761638754 ] } },
+{ "type": "Feature", "properties": { "label": "All Star Bike Shop, Quail Corners" }, "geometry": { "type": "Point", "coordinates": [ -78.615597585133017, 35.84978845642992 ] } },
+{ "type": "Feature", "properties": { "label": "All Star Bike Shop, Ridgewood" }, "geometry": { "type": "Point", "coordinates": [ -78.685757082457911, 35.802383853925008 ] } },
+{ "type": "Feature", "properties": { "label": "Cycle Logic" }, "geometry": { "type": "Point", "coordinates": [ -78.65561982053174, 35.78267065846827 ] } },
+{ "type": "Feature", "properties": { "label": "The Bicycle Chain, Raleigh" }, "geometry": { "type": "Point", "coordinates": [ -78.752732265964653, 35.893818662795134 ] } },
+{ "type": "Feature", "properties": { "label": "Dick's Sporting Goods" }, "geometry": { "type": "Point", "coordinates": [ -78.784037830291709, 35.907662485304627 ] } },
+{ "type": "Feature", "properties": { "label": "Dick's Sporting Goods" }, "geometry": { "type": "Point", "coordinates": [ -78.576818888485235, 35.863073614512139 ] } },
+{ "type": "Feature", "properties": { "label": "All Star Bike Shop, Cary" }, "geometry": { "type": "Point", "coordinates": [ -78.783000188399157, 35.762151560444046 ] } },
+{ "type": "Feature", "properties": { "label": "Dick's Sporting Goods" }, "geometry": { "type": "Point", "coordinates": [ -78.512945983129725, 35.796657848523594 ] } },
+{ "type": "Feature", "properties": { "label": "Dick's Sporting Goods" }, "geometry": { "type": "Point", "coordinates": [ -78.73717665867656, 35.763237772952444 ] } },
+{ "type": "Feature", "properties": { "label": "Frank's Cyclery" }, "geometry": { "type": "Point", "coordinates": [ -78.743406892705778, 35.88474210471734 ] } },
+{ "type": "Feature", "properties": { "label": "Oak City Cycling Project" }, "geometry": { "type": "Point", "coordinates": [ -78.634735406409405, 35.789769153106313 ] } },
+{ "type": "Feature", "properties": { "label": "Performance BIcycle" }, "geometry": { "type": "Point", "coordinates": [ -78.622815117534117, 35.869330853838974 ] } },
+{ "type": "Feature", "properties": { "label": "Performance BIcycle" }, "geometry": { "type": "Point", "coordinates": [ -78.766027428207636, 35.776654726768491 ] } },
+{ "type": "Feature", "properties": { "label": "REI" }, "geometry": { "type": "Point", "coordinates": [ -78.643306801801728, 35.837993063599605 ] } },
+{ "type": "Feature", "properties": { "label": "REI" }, "geometry": { "type": "Point", "coordinates": [ -78.74553774432529, 35.76369599593253 ] } },
+{ "type": "Feature", "properties": { "label": "TLC for bikes" }, "geometry": { "type": "Point", "coordinates": [ -78.616627904344924, 35.896352952493494 ] } },
+{ "type": "Feature", "properties": { "label": "Trek" }, "geometry": { "type": "Point", "coordinates": [ -78.59137169572935, 35.907134997978076 ] } },
+{ "type": "Feature", "properties": { "label": "Inside Out Sports Shop" }, "geometry": { "type": "Point", "coordinates": [ -78.682800405226061, 35.89807585263555 ] } }
+]
+}

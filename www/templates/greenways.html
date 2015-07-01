@@ -1,0 +1,9 @@
+<ion-view view-title="Greenways">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="greenway in routes._layers | toArray | filter: filterGreenways | unique: 'feature.properties.name' | orderBy: 'feature.properties.name'" ng-click="greenwayClick(greenway)">
+        {{greenway.feature.properties.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

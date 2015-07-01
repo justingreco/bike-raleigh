@@ -1,0 +1,14 @@
+{
+  "name": "HelloIonic",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.0"
+  },
+  "dependencies": {
+    "leaflet": "~0.7.3",
+    "esri-leaflet": "~1.0.0-rc.8",
+    "angularjs-geolocation": "~0.1.1",
+    "angular-toArrayFilter": "~1.0.1",
+    "angular-filter": "~0.5.4"
+  }
+}
