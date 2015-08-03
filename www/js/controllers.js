@@ -66,6 +66,9 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
         }
       }      
   }).addTo($rootScope.map);
+  $rootScope.routes.bindPopup(function (feature) {
+    return L.Util.template('<strong>{NAME}</strong><p>{CATEGORY}</p>', feature.properties);
+  }); 
 
 
   L.AwesomeMarkers.Icon.prototype.options.prefix = 'ion';
@@ -82,6 +85,9 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
         
       }  
   }).addTo($rootScope.map);
+  $rootScope.bikeShops.bindPopup(function (feature) {
+    return L.Util.template('<strong>{LABEL}</strong>', feature.properties);
+  });
 
   var parkIcon = L.AwesomeMarkers.icon({
     icon: 'android-car',
@@ -94,5 +100,7 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
         
       }  
   }).addTo($rootScope.map);
-
+  $rootScope.parking.bindPopup(function (feature) {
+    return L.Util.template('<strong>{TYPE}</strong><p>{ADDRESS}</p><p>{BETWEEN_}</p>', feature.properties);
+  });
 });
