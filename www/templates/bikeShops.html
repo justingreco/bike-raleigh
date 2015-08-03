@@ -1,8 +1,8 @@
 <ion-view view-title="Bike Shops">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="shop in bikeShops._layers | toArray | orderBy: 'feature.properties.label'" ng-click="shopClick(shop)">
-        {{shop.feature.properties.label}}
+      <ion-item ng-repeat="shop in bikeShops._layers | toArray | orderBy: 'feature.properties.LABEL'" ng-click="shopClick(shop)">
+        {{shop.feature.properties.LABEL}}
       </ion-item>
     </ion-list>
   </ion-content>

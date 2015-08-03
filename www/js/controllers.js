@@ -6,10 +6,10 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
     $state.go('app.map')    
   };
   $scope.greenwayClick = function (greenway) {
-    console.log(greenway.feature.properties.name); 
+    console.log(greenway.feature.properties.NAME); 
     var latLngs = [];
     angular.forEach($rootScope.routes._layers, function (route) {
-      if (route.feature.properties.name === greenway.feature.properties.name) {
+      if (route.feature.properties.NAME === greenway.feature.properties.NAME) {
         latLngs.push(route.getLatLngs());
       }
     });
@@ -18,23 +18,35 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
     $state.go('app.map');
   };
   $scope.filterGreenways = function (greenway) {
-    return greenway.feature.properties.category === 'Paved Greenway' && greenway.feature.properties.name;
+    return greenway.feature.properties.CATEGORY === 'Paved Greenway' && greenway.feature.properties.NAME;
   };
 })
 .controller('MapCtrl', function($scope, $http, $rootScope, geolocation) {
-  $rootScope.map = L.map('map').setView([35.81889, -78.64447], 10);
+  $rootScope.map = L.map('map', {zoomControl:false}).setView([35.75, -78.695], 10);
+  var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+  }).addTo($rootScope.map);
 
-  L.esri.basemapLayer('Topographic').addTo($rootScope.map);
-
+  $rootScope.locate = L.control.locate().addTo($rootScope.map);
+  $scope.locating = false;
   $scope.geoLocate = function () {
-    navigator.geolocation.getCurrentPosition(function (position) {
+/*    navigator.geolocation.getCurrentPosition(function (position) {
       $rootScope.map.setView([position.coords.latitude, position.coords.longitude], 16);
-    });
+    });*/
+    $scope.locating = !$scope.locating;
+    if ($scope.locating) {
+      $rootScope.locate.start();
+    } else {
+      $rootScope.locate.stop();
+    }
+    
   };
-  $http.get('data/bikemap.geojson').success(function (data) {
-    var gj = L.geoJson(data, {
-      style: function (feature, layer) {
-        switch (feature.properties.category) {
+
+  $rootScope.routes = L.esri.featureLayer({
+    url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/3',
+      simplifyFactor: 0.35,
+      style: function (feature) {
+        switch (feature.properties.CATEGORY) {
         case "Preferred Route":
           return {"color" : "#1d90d0", "opacity" : 1, "weight" : 6, "stroke": true};
         case "Difficult Connection":
@@ -53,16 +65,34 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
           return {"color" : "#ab9464", "opacity" : 1, "weight" : 6};
         }
       }      
-    }).addTo($rootScope.map);
-    $rootScope.routes = gj;
-  });
-  $http.get('data/bikeshops.geojson').success(function (data) {
-    var icon = L.icon({iconUrl: 'img/bicycle-24@2x.png', iconSize: [24,24]});
-    var gj = L.geoJson(data, {
-      pointToLayer: function (feature, latlng) {
-        return new L.Marker(latlng, {icon: icon});
-      }
-    }).addTo($rootScope.map);
-    $rootScope.bikeShops = gj;
-  });
+  }).addTo($rootScope.map);
+
+
+  L.AwesomeMarkers.Icon.prototype.options.prefix = 'ion';
+  
+  var shopIcon = L.AwesomeMarkers.icon({
+    icon: 'wrench',
+    markerColor: 'darkred'
+  }); 
+
+  $rootScope.bikeShops = L.esri.featureLayer({
+    url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/0',
+      pointToLayer: function (geojson, latlng) {
+        return new L.Marker(latlng, {icon: shopIcon});
+        
+      }  
+  }).addTo($rootScope.map);
+
+  var parkIcon = L.AwesomeMarkers.icon({
+    icon: 'android-car',
+    markerColor: 'cadetblue'
+  }); 
+  $rootScope.parking = L.esri.featureLayer({
+    url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/1',
+      pointToLayer: function (geojson, latlng) {
+        return new L.Marker(latlng, {icon: parkIcon});
+        
+      }  
+  }).addTo($rootScope.map);
+
 });
