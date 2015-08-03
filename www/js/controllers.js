@@ -27,7 +27,7 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
   }).addTo($rootScope.map);
 
-  $rootScope.locate = L.control.locate().addTo($rootScope.map);
+  $rootScope.locate = L.control.locate({follow: true}).addTo($rootScope.map);
   $scope.locating = false;
   $scope.geoLocate = function () {
 /*    navigator.geolocation.getCurrentPosition(function (position) {
