@@ -94,7 +94,7 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
 
   var parking = L.esri.featureLayer({
     url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/1',
-    minZoom: 12,    
+    minZoom: 14,    
     pointToLayer: function (geojson, latlng) {
       return new L.Marker(latlng, {icon: parkIcon});
       
