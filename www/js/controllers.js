@@ -77,10 +77,10 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
 
   var bikeShops = L.esri.featureLayer({
     url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/0',
-      pointToLayer: function (geojson, latlng) {
-        return new L.Marker(latlng, {icon: shopIcon});
-        
-      }  
+    minZoom: 12,
+    pointToLayer: function (geojson, latlng) {
+      return new L.Marker(latlng, {icon: shopIcon});
+    }  
   }).addTo(map);
   bikeShops.bindPopup(function (feature) {
     return L.Util.template('<strong>{LABEL}</strong>', feature.properties);
@@ -94,10 +94,11 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
 
   var parking = L.esri.featureLayer({
     url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/1',
-      pointToLayer: function (geojson, latlng) {
-        return new L.Marker(latlng, {icon: parkIcon});
-        
-      }  
+    minZoom: 12,    
+    pointToLayer: function (geojson, latlng) {
+      return new L.Marker(latlng, {icon: parkIcon});
+      
+    }  
   }).addTo(map);
   parking.bindPopup(function (feature) {
     return L.Util.template('<strong>{TYPE}</strong><p>{ADDRESS}</p><p>{BETWEEN_}</p>', feature.properties);
