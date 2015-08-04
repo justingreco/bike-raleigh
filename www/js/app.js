@@ -48,17 +48,25 @@ angular.module('bikeRaleigh', ['ionic', 'bikeRaleigh.controllers', 'angular-toAr
       }
     }
   })
-    .state('app.map', {
-      url: "/map",
-      views: {
-        'menuContent': {
-          templateUrl: "templates/map.html",
-          controller: 'MapCtrl'
-        }
+  .state('app.map', {
+    url: "/map",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/map.html",
+        controller: 'MapCtrl'
       }
-    })
-
-  .state('app.single', {
+    }
+  })
+  .state('app.legend', {
+    url: "/legend",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/legend.html",
+        controller: 'LegendCtrl'
+      }
+    }
+  })
+/*  .state('app.single', {
     url: "/playlists/:playlistId",
     views: {
       'menuContent': {
@@ -66,7 +74,7 @@ angular.module('bikeRaleigh', ['ionic', 'bikeRaleigh.controllers', 'angular-toAr
         controller: 'PlaylistCtrl'
       }
     }
-  });
+  })*/;
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/map');
 });

@@ -22,12 +22,12 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
   };
 })
 .controller('MapCtrl', function($scope, $http, $rootScope, geolocation) {
-  $rootScope.map = L.map('map', {zoomControl:false}).setView([35.75, -78.695], 10);
+  var map = L.map('map', {zoomControl:false}).setView([35.75, -78.695], 10);
   var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-  }).addTo($rootScope.map);
+  }).addTo(map);
 
-  $rootScope.locate = L.control.locate({follow: true}).addTo($rootScope.map);
+  $rootScope.locate = L.control.locate({follow: true}).addTo(map);
   $scope.locating = false;
   $scope.geoLocate = function () {
 /*    navigator.geolocation.getCurrentPosition(function (position) {
@@ -42,7 +42,7 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
     
   };
 
-  $rootScope.routes = L.esri.featureLayer({
+  var routes = L.esri.featureLayer({
     url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/3',
       simplifyFactor: 0.35,
       style: function (feature) {
@@ -65,11 +65,11 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
           return {"color" : "#ab9464", "opacity" : 1, "weight" : 6};
         }
       }      
-  }).addTo($rootScope.map);
-  $rootScope.routes.bindPopup(function (feature) {
+  }).addTo(map);
+  routes.bindPopup(function (feature) {
     return L.Util.template('<strong>{NAME}</strong><p>{CATEGORY}</p>', feature.properties);
   }); 
-
+  $rootScope.routes = routes;
 
   L.AwesomeMarkers.Icon.prototype.options.prefix = 'ion';
   
@@ -78,29 +78,36 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
     markerColor: 'darkred'
   }); 
 
-  $rootScope.bikeShops = L.esri.featureLayer({
+  var bikeShops = L.esri.featureLayer({
     url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/0',
       pointToLayer: function (geojson, latlng) {
         return new L.Marker(latlng, {icon: shopIcon});
         
       }  
-  }).addTo($rootScope.map);
-  $rootScope.bikeShops.bindPopup(function (feature) {
+  }).addTo(map);
+  bikeShops.bindPopup(function (feature) {
     return L.Util.template('<strong>{LABEL}</strong>', feature.properties);
   });
+  $rootScope.bikeShops = bikeShops;
 
   var parkIcon = L.AwesomeMarkers.icon({
     icon: 'android-car',
     markerColor: 'cadetblue'
   }); 
-  $rootScope.parking = L.esri.featureLayer({
+
+  var parking = L.esri.featureLayer({
     url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/1',
       pointToLayer: function (geojson, latlng) {
         return new L.Marker(latlng, {icon: parkIcon});
         
       }  
-  }).addTo($rootScope.map);
-  $rootScope.parking.bindPopup(function (feature) {
+  }).addTo(map);
+  parking.bindPopup(function (feature) {
     return L.Util.template('<strong>{TYPE}</strong><p>{ADDRESS}</p><p>{BETWEEN_}</p>', feature.properties);
   });
+  $rootScope.parking = parking;
+  $rootScope.map = map;
+})
+.controller('LegendCtrl', function($scope, $http, $rootScope) {
+
 });

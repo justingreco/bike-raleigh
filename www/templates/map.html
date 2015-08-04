@@ -3,6 +3,9 @@
       <button class="button button-clear button-positive icon ion-ios-navigate" ng-click="geoLocate()" ng-class="{'ion-ios-navigate': locating, 'ion-ios-navigate-outline': !locating}">
       </button>
     </ion-nav-buttons>
-  <ion-content id="map">
+  <ion-content scroll="false">
+	<div id="mapWrapper" data-tap-disabled="true">
+  		<div id="map"></div>
+  	</div>
   </ion-content>
 </ion-view>

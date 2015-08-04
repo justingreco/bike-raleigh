@@ -5,3 +5,8 @@
 .leaflet-control-locate {
 	visibility: hidden;
 }
+
+#map, #mapWrapper {
+	width: 100%;
+	height: 100%;
+}
