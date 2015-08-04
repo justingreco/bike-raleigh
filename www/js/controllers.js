@@ -30,9 +30,6 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
   $rootScope.locate = L.control.locate({follow: true}).addTo(map);
   $scope.locating = false;
   $scope.geoLocate = function () {
-/*    navigator.geolocation.getCurrentPosition(function (position) {
-      $rootScope.map.setView([position.coords.latitude, position.coords.longitude], 16);
-    });*/
     $scope.locating = !$scope.locating;
     if ($scope.locating) {
       $rootScope.locate.start();
