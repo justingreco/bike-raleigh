@@ -1,9 +1,9 @@
 angular.module('bikeRaleigh.controllers', ['geolocation'])
 .controller('AppCtrl', function($scope, $rootScope, $ionicModal, $timeout, $state, $window) {
-  // if (!$rootScope.map && $state.current.name != 'app.map') {
-  //   $state.go('app.map');
-  //   $window.location.reload(true);
-  // }
+  if (!$rootScope.map && $state.current.name != 'app.map') {
+    $state.go('app.map');
+    $window.location.reload(true);
+  }
   $scope.benefitMemberClick = function (member) {
     console.log(member);
     $rootScope.map.setView(member.feature.geometry.coordinates.reverse(), 16);
@@ -37,7 +37,7 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
   };
 })
 .controller('MapCtrl', function($scope, $http, $rootScope, geolocation) {
-  //if (!$rootScope.map) {
+  if (!$rootScope.map) {
     var map = L.map('map', {zoomControl:false}).setView([35.75, -78.695], 10);
     var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
@@ -131,16 +131,19 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
     });
     $rootScope.benefitMembers = benefitMembers;
     $rootScope.map = map;
-  //}
+  }
 })
 .controller('LegendCtrl', function($scope, $http, $rootScope, $state, $window) {
   $scope.routeTypes = [];
-  // if (!$rootScope.map) {
-  //   $state.go('app.map');
-  //   $window.location.reload(true);
-  // }
+  if (!$rootScope.map) {
+    $state.go('app.map');
+    $window.location.reload(true);
+  }
   if (!$rootScope.pointLayers) {
-      $rootScope.pointLayers = [{label: 'Bike Shops', layer: $rootScope.bikeShops, visible: true},{label: 'Bike Benefit Members', layer: $rootScope.benefitMembers, visible: true}, {label: 'Bike Parking', layer: $rootScope.parking, visible: true}];
+      $rootScope.pointLayers = [
+      {label: 'Bike Shops', layer: $rootScope.bikeShops, visible: true, image: 'img/shop.png'},
+      {label: 'Bike Benefit Members', layer: $rootScope.benefitMembers, visible: true, image: 'img/benefits.png'}, 
+      {label: 'Bike Parking', layer: $rootScope.parking, visible: true, image: 'img/parking.png'}];
   }
   $scope.pointLayerToggled = function (layer) {
     console.log(layer);
