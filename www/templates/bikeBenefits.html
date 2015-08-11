@@ -1,0 +1,9 @@
+<ion-view view-title="Bike Benefit Members">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="member in benefitMembers._layers | toArray | orderBy: 'feature.properties.name'" ng-click="benefitMemberClick(member)">
+        {{member.feature.properties.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

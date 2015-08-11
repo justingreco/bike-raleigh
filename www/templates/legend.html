@@ -1,0 +1,14 @@
+<ion-view view-title="Layers"  hide-back-button="true">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="layer in pointLayers">
+      	<ion-toggle ng-model="layer.visible" toggle-class="toggle-calm" ng-change="pointLayerToggled(layer)"><img style="margin-right: 20px;vertical-align: middle" ng-src="{{layer.image}}"/>{{layer.label}}</ion-toggle>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item ng-repeat="layer in routeLayers">
+      	<ion-toggle ng-model="layer.visible" toggle-class="toggle-calm" ng-change="routeLayerToggled(layer)"><img style="margin-right: 20px;vertical-align: middle" ng-src="data:image/png;base64,{{layer.imageData}}"/>{{layer.label}}</ion-toggle>
+      </ion-item>
+    </ion-list>    
+  </ion-content>
+</ion-view>
