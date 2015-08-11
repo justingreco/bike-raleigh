@@ -57,6 +57,14 @@ angular.module('bikeRaleigh', ['ionic', 'bikeRaleigh.controllers', 'angular-toAr
       }
     }
   })
+  .state('app.bikeBenefits', {
+    url: "/bikeBenefits",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/bikeBenefits.html"
+      }
+    }
+  })  
   .state('app.legend', {
     url: "/legend",
     views: {
@@ -66,6 +74,15 @@ angular.module('bikeRaleigh', ['ionic', 'bikeRaleigh.controllers', 'angular-toAr
       }
     }
   })
+  .state('app.feedback', {
+    url: "/feedback",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/feedback.html",
+        controller: 'FeedbackCtrl'
+      }
+    }
+  })  
 /*  .state('app.single', {
     url: "/playlists/:playlistId",
     views: {
