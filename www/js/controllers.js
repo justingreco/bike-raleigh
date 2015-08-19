@@ -1,5 +1,6 @@
 angular.module('bikeRaleigh.controllers', ['geolocation'])
 .controller('AppCtrl', function($scope, $rootScope, $ionicModal, $timeout, $state, $window) {
+  
   if (!$rootScope.map && $state.current.name != 'app.map') {
     $state.go('app.map');
     $window.location.reload(true);
@@ -30,7 +31,6 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
             greenway.openPopup(); 
         });   
       });
-      map.fitBounds(pl.getBounds());
   };
   $scope.filterGreenways = function (greenway) {
     return greenway.feature.properties.CATEGORY === 'Paved Greenway' && greenway.feature.properties.NAME;
@@ -38,7 +38,7 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
 })
 .controller('MapCtrl', function($scope, $http, $rootScope, geolocation) {
   if (!$rootScope.map) {
-    var map = L.map('map', {zoomControl:false}).setView([35.75, -78.695], 10);
+    var map = L.map('map', {zoomControl:false, minZoom: 10}).setView([35.75, -78.695], 10);
     var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
     }).addTo(map);
@@ -96,7 +96,7 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
       }  
     }).addTo(map);
     bikeShops.bindPopup(function (feature) {
-      return L.Util.template('<strong>{LABEL}</strong>', feature.properties);
+      return L.Util.template("<strong>{LABEL}</strong><p>{ADDRESS}</p><p><a href=\"#\" onclick='window.open(\""+ feature.properties.URL +"\", \"_system\", \"location=yes\");return false;' target=\"_blank\">Website</a></p>", feature.properties);
     });
     $rootScope.bikeShops = bikeShops;
     var parkIcon = L.AwesomeMarkers.icon({
@@ -127,14 +127,14 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
       }  
     }).addTo(map);
     benefitMembers.bindPopup(function (feature) {
-      return L.Util.template('<strong>{name}</strong><p>{address}</p><p>{discount}</p><p><a href="{web}" target="_blank">Website</a></p>', feature.properties);
+      return L.Util.template("<strong>{name}</strong><p>{address}</p><p>{discount}</p><p><a href=\"#\" onclick='window.open(\""+ feature.properties.web +"\", \"_system\", \"location=yes\");return false;' target=\"_blank\">Website</a></p>", feature.properties);
     });
     $rootScope.benefitMembers = benefitMembers;
     $rootScope.map = map;
   }
 })
 .controller('LegendCtrl', function($scope, $http, $rootScope, $state, $window) {
-  $scope.routeTypes = [];
+  //$scope.routeTypes = [];
   if (!$rootScope.map) {
     $state.go('app.map');
     $window.location.reload(true);
@@ -154,20 +154,26 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
     }
   };
   $scope.routeLayerToggled = function (layer) {
+/*    if ($scope.routeTypes.length === 0) {
+      var where = $rootScope.routes.getWhere();
+      where = where.replace("CATEGORY IN (").replace(")");
+      $scope.routeTypes = where.split(',');
+    }*/
     if (layer.visible) {
-      $scope.routeTypes.push(layer.label)
+      $rootScope.routeTypes.push(layer.label)
     } else {
-      $scope.routeTypes.splice($scope.routeTypes.indexOf(layer.label), 1);
+      $rootScope.routeTypes.splice($rootScope.routeTypes.indexOf(layer.label), 1);
     }
-    $rootScope.routes.setWhere("CATEGORY IN ('" + $scope.routeTypes.toString().replace(/,/g, "','") + "')");
+    $rootScope.routes.setWhere("CATEGORY IN ('" + $rootScope.routeTypes.toString().replace(/,/g, "','") + "')");
     console.log($rootScope.routes.getWhere());
   };
   if (!$rootScope.routeLayers) {
     $http.get('http://mapstest.raleighnc.gov/arcgis/rest/services/Transportation/BikeRaleigh/MapServer/legend?f=json').then(function (response) {
       angular.forEach(response.data.layers, function (l) {
         if (l.layerName === 'Bike Routes') {
+          $rootScope.routeTypes = [];
           angular.forEach(l.legend, function (i) {
-            $scope.routeTypes.push(i.label);
+            $rootScope.routeTypes.push(i.label);
             i.visible = true;
           });
           $rootScope.routeLayers = l.legend;
@@ -176,6 +182,22 @@ angular.module('bikeRaleigh.controllers', ['geolocation'])
     });
   }
 })
-.controller('FeedbackCtrl', function($scope, $http, $rootScope) {
-
+.controller('FeedbackCtrl', function($scope, $http, $rootScope, $state) {
+  $scope.comments = "";
+  function closeForm () {
+    $state.go('app.map');
+  }
+  $scope.sendFeedback = function (text) {
+    $http({url: 'http://maps.raleighnc.gov/php/mail.php',
+    method: 'GET',
+    type: 'jsonp',
+    params: {
+      fromEmail: 'gis@raleighnc.gov',
+      toEmail: 'gis@raleighnc.gov',
+      subject: 'BikeRaleigh App Feedback',
+      message: text,
+      from: '',
+      to: ''
+    }}).success(closeForm).error(closeForm);
+  };  
 });

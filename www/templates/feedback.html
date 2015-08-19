@@ -1,9 +1,9 @@
 <ion-view view-title="Feedback">
   <ion-content>
 	<label class="item item-input">
-		<textarea placeholder="Comments" style="height: 200px;max-height: 300px"></textarea>
+		<textarea ng-model="comments" placeholder="Comments" style="height: 200px;max-height: 300px"></textarea>
 	</label>
-	<button class="button button-block button-positive">
+	<button class="button button-block button-positive" ng-disabled="comments.length < 1" ng-click="sendFeedback(comments)">
 	  Submit
 	</button>	
 </ion-content>
